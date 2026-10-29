@@ -1,0 +1,23 @@
+# Render Blueprint: New > Blueprint in the Render dashboard, pick this repo.
+services:
+  - type: web
+    name: ct-land-leads
+    runtime: node
+    # Starter is the lowest plan that supports a persistent disk; without one,
+    # saved leads and imported listings are wiped on every deploy or restart.
+    plan: starter
+    region: virginia
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATA_DIR
+        value: /var/data
+      - key: APP_PASSWORD
+        sync: false

@@ -59,6 +59,9 @@ export function createApp({
 
   const app = express();
 
+  // Render's health check hits this, so it sits in front of the password.
+  app.get('/healthz', (req, res) => res.send('ok'));
+
   if (password) {
     app.use((req, res, next) => {
       const [, encoded] = (req.headers.authorization || '').split(' ');
@@ -170,6 +173,11 @@ export function createApp({
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const port = Number(process.env.PORT) || 3000;
   const demo = process.env.DEMO === '1';
-  createApp({ demo, password: process.env.APP_PASSWORD || '', layerUrl: process.env.PARCEL_LAYER_URL || DEFAULT_LAYER_URL })
+  createApp({
+    demo,
+    password: process.env.APP_PASSWORD || '',
+    layerUrl: process.env.PARCEL_LAYER_URL || DEFAULT_LAYER_URL,
+    ...(process.env.DATA_DIR && { dataDir: process.env.DATA_DIR }),
+  })
     .listen(port, () => console.log(`CT Land Leads running at http://localhost:${port}${demo ? ' (demo data)' : ''}`));
 }

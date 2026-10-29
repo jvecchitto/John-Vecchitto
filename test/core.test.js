@@ -78,3 +78,20 @@ test('floodZoneAt parses the FEMA response', async () => {
   const { floodZoneAt } = await import('../server/flood.js');
   assert.deepEqual(await floodZoneAt({ lat: 41.28, lon: -72.6 }, demoFetch), { zone: 'AE', subtype: '', inFloodplain: true });
 });
+
+test('health check works without the password; everything else needs it', async () => {
+  const { createApp } = await import('../server/index.js');
+  const { mkdtemp } = await import('node:fs/promises');
+  const os = await import('node:os');
+  const dataDir = await mkdtemp(`${os.tmpdir()}/leads-`);
+  const server = createApp({ demo: true, password: 's3cret:x', dataDir }).listen(0);
+  const base = `http://127.0.0.1:${server.address().port}`;
+  try {
+    assert.equal((await fetch(`${base}/healthz`)).status, 200);
+    assert.equal((await fetch(`${base}/api/config`)).status, 401);
+    const auth = { Authorization: `Basic ${Buffer.from('any:s3cret:x').toString('base64')}` };
+    assert.equal((await fetch(`${base}/api/config`, { headers: auth })).status, 200);
+  } finally {
+    server.close();
+  }
+});

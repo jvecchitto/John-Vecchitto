@@ -42,7 +42,20 @@ Environment variables:
 
 Saved leads and imported listings are stored in `data/leads.json` and `data/listings.json`. Back up that folder.
 
-To share it with your realtor, deploy it to a small Node host such as Render or Railway with a persistent disk for `data/`, and set `APP_PASSWORD`.
+- `DATA_DIR`: where leads and listings are saved; defaults to `data/`
+
+## Deploying to Render
+
+`render.yaml` sets up the service: a Starter web service, a 1 GB persistent disk at `/var/data` for saved leads and listings, and a password prompt.
+
+1. Sign in at [dashboard.render.com](https://dashboard.render.com) and connect your GitHub account.
+2. Click **New → Blueprint** and pick this repository and branch.
+3. When asked, enter an `APP_PASSWORD`. You and your realtor will use it to log in; the browser asks for a username and password, and any username works.
+4. Click **Apply**. The first deploy takes a few minutes. You'll get a URL like `https://ct-land-leads.onrender.com`.
+
+Cost: the Starter plan plus a 1 GB disk is about $7–8 a month. Render's free plan works too, but it has no persistent disk, so leads and imported listings are erased on every deploy or restart, and it sleeps after 15 minutes idle. To use it anyway, change `plan: starter` to `plan: free` and delete the `disk:` block.
+
+New commits to the deployed branch redeploy automatically.
 
 ## Getting expired listings into the app
 
