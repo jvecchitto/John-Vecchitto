@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CT Land Leads</title>
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>CT Land Leads</h1>
+    <span id="demo-badge" class="badge" hidden>Demo data</span>
+    <nav>
+      <button class="tab active" data-tab="search">Search</button>
+      <button class="tab" data-tab="leads">My leads</button>
+      <button class="tab" data-tab="listings">MLS listings</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="tab-search">
+      <form id="search-form">
+        <input id="zip" name="zip" placeholder="Zip code (e.g. 06443)" inputmode="numeric" maxlength="5">
+        <span class="or">or</span>
+        <input id="town" name="town" placeholder="Town (e.g. Madison)">
+        <button type="submit">Find land</button>
+      </form>
+
+      <div id="filters">
+        <label>Min acres <input id="f-acres" type="number" min="0" step="0.5" value="0"></label>
+        <label>Min score <input id="f-score" type="number" min="0" max="100" step="5" value="0"></label>
+        <label>Land type <select id="f-type"><option value="">Any</option></select></label>
+        <label><input id="f-absentee" type="checkbox"> Out-of-town owners only</label>
+        <label><input id="f-expired" type="checkbox"> Expired / withdrawn only</label>
+        <label><input id="f-hide-active" type="checkbox" checked> Hide active listings</label>
+        <a id="export" class="button secondary" hidden>Export CSV</a>
+      </div>
+
+      <p id="status" class="muted">Search a Connecticut zip code or town to list vacant land parcels.</p>
+
+      <div id="results-layout">
+        <div id="map"></div>
+        <div id="table-wrap">
+          <table id="results">
+            <thead>
+              <tr>
+                <th data-sort="score">Score</th>
+                <th data-sort="location">Location</th>
+                <th data-sort="acres">Acres</th>
+                <th data-sort="landType">Type</th>
+                <th data-sort="owner">Owner</th>
+                <th data-sort="mailState">Mails to</th>
+                <th data-sort="listingKind">MLS</th>
+                <th>Lead</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-leads" hidden>
+      <h2>Saved leads</h2>
+      <p class="muted">Every parcel you've added a status, contact info or notes to.</p>
+      <table id="leads-table">
+        <thead><tr><th>Location</th><th>Owner</th><th>Status</th><th>Approval</th><th>Phone</th><th>Email</th><th>Updated</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="tab-listings" hidden>
+      <h2>Import MLS listings</h2>
+      <p>IDX feeds usually only include <strong>active</strong> listings. To get expired and withdrawn land, run a SmartMLS search
+        (Property type: Lots and Land; Status: Expired, Withdrawn, Canceled; your towns) and export it as CSV. Upload it here and
+        the app matches each listing to its parcel.</p>
+      <p class="muted">Columns are detected by name: Address (or Street Number + Street Name), City, Status, List Price,
+        Original List Price, DOM, List Agent, List Office, MLS #, Expiration / Off Market Date, Acres.</p>
+      <input id="csv-file" type="file" accept=".csv,text/csv">
+      <button id="clear-listings" class="secondary">Clear all listings</button>
+      <p id="listings-status" class="muted"></p>
+    </section>
+  </main>
+
+  <aside id="detail" hidden>
+    <button id="close-detail" class="close" aria-label="Close">×</button>
+    <div id="detail-body"></div>
+  </aside>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+:root {
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --accent: #166534;
+  --hot: #c2410c;
+  --warm: #ca8a04;
+  --cold: #64748b;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+header { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: var(--accent); color: #fff; flex-wrap: wrap; }
+header h1 { font-size: 18px; margin: 0; }
+nav { margin-left: auto; display: flex; gap: 4px; }
+.tab { background: transparent; color: #dcfce7; border: 1px solid transparent; }
+.tab.active { background: #fff; color: var(--accent); }
+.badge { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 999px; font-size: 12px; }
+main { padding: 16px; }
+
+button, .button { font: inherit; padding: 7px 14px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+button.secondary, .button.secondary { background: #fff; color: var(--accent); }
+button.link { background: none; border: none; color: var(--accent); padding: 0; text-decoration: underline; }
+input, select, textarea { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+
+#search-form { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+#search-form input { width: 200px; }
+.or { color: var(--muted); }
+#filters { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+#filters input[type=number] { width: 70px; }
+#export { margin-left: auto; }
+
+#results-layout { display: grid; grid-template-columns: minmax(300px, 2fr) 3fr; gap: 12px; }
+#map { height: calc(100vh - 230px); min-height: 360px; border-radius: 8px; border: 1px solid var(--line); }
+#table-wrap { overflow: auto; max-height: calc(100vh - 230px); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+
+table { width: 100%; border-collapse: collapse; background: var(--panel); }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { position: sticky; top: 0; background: #f1f5f9; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: #334155; }
+th[data-sort] { cursor: pointer; }
+#results tbody tr { cursor: pointer; }
+#results tbody tr:hover { background: #f0fdf4; }
+#results tbody tr.selected { background: #dcfce7; }
+
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+.score { display: inline-block; min-width: 34px; text-align: center; padding: 2px 6px; border-radius: 6px; color: #fff; font-weight: 700; }
+.score.hot { background: var(--hot); }
+.score.warm { background: var(--warm); }
+.score.cold { background: var(--cold); }
+.score.big { font-size: 22px; padding: 4px 10px; }
+.pill { padding: 1px 8px; border-radius: 999px; font-size: 12px; background: #e2e8f0; }
+.pill.expired { background: #ffedd5; color: #9a3412; }
+.pill.active { background: #dbeafe; color: #1e40af; }
+.pill.sold { background: #e2e8f0; color: #334155; }
+
+#detail { position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); background: var(--panel); border-left: 1px solid var(--line); box-shadow: -4px 0 20px rgba(0,0,0,.08); overflow: auto; padding: 16px 20px; z-index: 1000; }
+#detail h2 { margin: 0 30px 2px 0; }
+#detail h3 { margin: 18px 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: #334155; }
+.close { position: absolute; top: 10px; right: 12px; background: none; border: none; color: var(--muted); font-size: 24px; }
+dl { display: grid; grid-template-columns: 120px 1fr; gap: 4px 10px; margin: 0; }
+dt { color: var(--muted); }
+dd { margin: 0; }
+.reasons { padding-left: 18px; margin: 6px 0; }
+.reasons b { display: inline-block; min-width: 26px; }
+#lead-form label { display: block; margin-bottom: 8px; }
+#lead-form input, #lead-form select, #lead-form textarea { display: block; width: 100%; margin-top: 2px; }
+.links { padding-left: 18px; }
+#tab-listings p { max-width: 760px; }
+
+@media (max-width: 900px) {
+  #results-layout { grid-template-columns: 1fr; }
+  #map { height: 300px; min-height: 0; }
+  #table-wrap { max-height: none; }
+}
+[hidden] { display: none !important; }
